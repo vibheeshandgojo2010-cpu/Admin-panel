@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | CUSTOM LABS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/transitions.css">
+    <link rel="stylesheet" href="../css/mascot.css">
+    <script src="../js/theme.js"></script>
+    <script src="../js/transitions.js"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav fixed">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">
+                    <span>CUSTOM</span>
+                    <span class="logo-orange">LABS</span>
+                </a>
+            </div>
+
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">HOME</a>
+                <a href="products.html" class="nav-link">PRODUCTS</a>
+                <a href="process.html" class="nav-link">PROCESS</a>
+                <a href="about.html" class="nav-link">ABOUT</a>
+                <a href="contact.html" class="nav-link active">CONTACT</a>
+            </div>
+
+            <div class="nav-auth">
+                <button class="cart-icon-btn" id="cartBtn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+
+                <div class="user-menu" id="userMenu" style="display: none;">
+                </div>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>GET IN <span class="highlight">TOUCH</span></h1>
+            <p>We'd love to hear from you. Let's create something amazing together!</p>
+        </div>
+    </header>
+
+    <!-- Contact Methods -->
+    <section class="section">
+        <div class="container">
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <i class="fas fa-envelope"></i>
+                    <h3>EMAIL US</h3>
+                    <p><a href="mailto:hello@customlabs.com">hello@customlabs.com</a></p>
+                    <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; margin-top: 10px;">
+                        We'll respond within 24 hours
+                    </p>
+                </div>
+
+                <div class="contact-method">
+                    <i class="fas fa-phone"></i>
+                    <h3>CALL US</h3>
+                    <p><a href="tel:+15551234567">+1 (555) 123-4567</a></p>
+                    <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; margin-top: 10px;">
+                        Mon-Fri: 9AM - 6PM EST
+                    </p>
+                </div>
+
+                <div class="contact-method">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>VISIT US</h3>
+                    <p>123 Design Street<br>Creative City, CC 12345</p>
+                    <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem; margin-top: 10px;">
+                        By appointment only
+                    </p>
+                </div>
+
+                <div class="contact-method">
+                    <i class="fas fa-comments"></i>
+                    <h3>LIVE CHAT</h3>
+                    <p>Chat with our team</p>
+                    <button class="product-btn" style="margin-top: 15px;"
+                        onclick="alert('Live chat feature coming soon!')">
+                        START CHAT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="section contact-page">
+        <div class="container">
+            <h2 class="section-title">SEND US A <span class="highlight">MESSAGE</span></h2>
+            <p class="section-subtitle">Fill out the form below and we'll get back to you as soon as possible</p>
+
+            <div class="contact-content">
+                <form class="contact-form" id="contactForm" style="max-width: 800px; margin: 0 auto;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 25px;">
+                        <div class="form-group">
+                            <input type="text" id="contactName" placeholder="Your Name *" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="contactEmail" placeholder="Your Email *" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 25px;">
+                        <div class="form-group">
+                            <input type="tel" id="contactPhone" placeholder="Phone Number">
+                        </div>
+                        <div class="form-group">
+                            <select id="contactSubject"
+                                style="width: 100%; background-color: transparent; border: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; padding: 15px; border-radius: 5px; font-family: 'Inter', sans-serif; font-size: 1rem;">
+                                <option value="" disabled selected>Select Subject *</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="custom">Custom Order</option>
+                                <option value="support">Customer Support</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 25px;">
+                        <textarea id="contactMessage" placeholder="Tell us about your project or inquiry *" rows="8"
+                            required></textarea>
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label
+                            style="display: flex; align-items: center; gap: 10px; color: rgba(255, 255, 255, 0.7); cursor: pointer;">
+                            <input type="checkbox" id="contactNewsletter"
+                                style="width: 18px; height: 18px; cursor: pointer;">
+                            <span>I'd like to receive updates and special offers from Custom Labs</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span>SEND MESSAGE</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+
+                    <div id="formStatus"
+                        style="margin-top: 20px; padding: 15px; border-radius: 10px; display: none; text-align: center;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">FREQUENTLY ASKED <span class="highlight">QUESTIONS</span></h2>
+
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3 class="faq-question">How long does customization take?</h3>
+                    <p class="faq-answer">
+                        Most custom orders are completed within 3-5 business days. Rush orders can be accommodated for
+                        an additional fee, with some items available in as little as 24 hours.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">What file formats do you accept?</h3>
+                    <p class="faq-answer">
+                        We accept most common image formats including JPG, PNG, PDF, AI, and PSD. For best results, we
+                        recommend high-resolution files (at least 300 DPI).
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">Do you offer bulk discounts?</h3>
+                    <p class="faq-answer">
+                        Yes! We offer tiered pricing for bulk orders. Contact us with your requirements for a custom
+                        quote on orders of 25+ items.
+                    </p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">What is your return policy?</h3>
+                    <p class="faq-answer">
+                        We stand behind our quality. If there's a production error or defect, we'll replace your item at
+                        no charge. For custom orders, we can't accept returns due to change of mind, but we work with
+                        you during design to ensure you're 100% satisfied.
+                    </p>
+                </div>
+
+                <div class="faq-footer">
+                    <p>
+                        Have more questions? <a href="#contactForm" class="faq-link">Contact us</a> and we'll be
+                        happy to help!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>FOLLOW US ON SOCIAL MEDIA</h2>
+            <p>Stay updated with our latest creations and special offers</p>
+            <div class="footer-social" style="margin-top: 30px;">
+                <a href="#" style="width: 60px; height: 60px; font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
+                <a href="#" style="width: 60px; height: 60px; font-size: 1.5rem;"><i class="fab fa-tiktok"></i></a>
+                <a href="#" style="width: 60px; height: 60px; font-size: 1.5rem;"><i class="fab fa-pinterest"></i></a>
+                <a href="#" style="width: 60px; height: 60px; font-size: 1.5rem;"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span>CUSTOM</span>
+                    <span>LABS</span>
+                </div>
+                <p class="footer-tagline">Creating uniqueness, one product at a time.</p>
+
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+
+                <p class="footer-copyright">© 2024 CUSTOM LABS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/firebase-app.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/mascot.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/contact.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+/* Themed Sliding Page Transition */
+.page-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Adapts to the theme accent color for a clear, themed feeling */
+    background-color: var(--accent);
+    z-index: 100000;
+    pointer-events: none;
+    transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+    transform: translateX(0);
+    /* Default covers screen */
+}
+
+/* Slide out to the right when page is loaded */
+.page-transition-overlay.hidden {
+    transform: translateX(100%);
+}
+
+/* Optional: Slight color shift based on theme to ensure it's always elegant */
+[data-theme="light"] .page-transition-overlay {
+    background-color: var(--accent);
+}
+
+[data-theme="dark"] .page-transition-overlay {
+    background-color: var(--accent);
+}

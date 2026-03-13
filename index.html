@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUSTOM LABS | Premium Custom Products</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/transitions.css">
+    <link rel="stylesheet" href="css/star-animation.css">
+    <link rel="stylesheet" href="css/mascot.css">
+    <script src="js/theme.js"></script>
+    <script src="js/transitions.js"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <span>CUSTOM</span>
+                    <span class="logo-orange">LABS</span>
+                </a>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">HOME</a>
+                <a href="pages/products.html" class="nav-link">PRODUCTS</a>
+                <a href="pages/process.html" class="nav-link">PROCESS</a>
+                <a href="pages/about.html" class="nav-link">ABOUT</a>
+                <a href="pages/contact.html" class="nav-link">CONTACT</a>
+            </div>
+
+            <div class="nav-auth">
+                <button class="cart-icon-btn" id="cartBtn" style="will-change: transform;">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+
+                <button class="login-btn" id="loginBtn">
+                    <i class="fas fa-user"></i>
+                    <span>LOGIN</span>
+                </button>
+
+                <div class="user-menu" id="userMenu" style="display: none;">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="brand-name">
+                    <span class="brand-text">CUSTOM</span>
+                    <span class="brand-orange">LABS</span>
+                </div>
+
+                <h1 class="hero-title">
+                    <span class="title-line">CREATE YOUR</span>
+                    <span class="title-line highlight">UNIQUE VISION</span>
+                </h1>
+
+                <p class="hero-subtitle">Defined by You. Crafted by Us.</p>
+
+                <a href="pages/products.html" class="cta-button">
+                    <span>START CREATING</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="scroll-indicator">
+                <div class="scroll-line"></div>
+                <span>SCROLL TO EXPLORE</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Featured Products Section -->
+    <section class="featured-section">
+        <div class="container">
+            <h2 class="section-title">FEATURED <span class="highlight">PRODUCTS</span></h2>
+            <p class="section-subtitle">Discover our most popular custom creations</p>
+
+            <div class="featured-grid">
+                <div class="featured-card">
+                    <div class="featured-image">
+                        <i class="fas fa-mug-hot"></i>
+                    </div>
+                    <h3>CUSTOM DRINKWARE</h3>
+                    <p>Magic mugs, bottles & more</p>
+                    <a href="pages/products.html" class="featured-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="featured-card">
+                    <div class="featured-image">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <h3>ACCESSORIES</h3>
+                    <p>Keychains, badges, stickers & bags</p>
+                    <a href="pages/products.html" class="featured-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="featured-card">
+                    <div class="featured-image">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>CUSTOM APPAREL</h3>
+                    <p>Hoodies, tees & more</p>
+                    <a href="pages/products.html" class="featured-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-section">
+        <div class="container">
+            <h2 class="section-title">WHY CHOOSE <span class="highlight">US</span></h2>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fas fa-palette"></i>
+                    <h3>UNLIMITED CUSTOMIZATION</h3>
+                    <p>Complete creative freedom to design exactly what you envision</p>
+                </div>
+
+                <div class="benefit-card">
+                    <i class="fas fa-award"></i>
+                    <h3>PREMIUM QUALITY</h3>
+                    <p>Only the finest materials and expert craftsmanship</p>
+                </div>
+
+                <div class="benefit-card">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h3>FAST DELIVERY</h3>
+                    <p>Quick turnaround times without compromising quality</p>
+                </div>
+
+                <div class="benefit-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 SUPPORT</h3>
+                    <p>Our team is always here to help bring your ideas to life</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>READY TO CREATE SOMETHING UNIQUE?</h2>
+            <p>Join hundreds of satisfied customers who trust Custom Labs</p>
+            <a href="pages/products.html" class="cta-button">
+                <span>BROWSE PRODUCTS</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-content">
+            <button class="close-modal" id="closeAuthModal">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">LOGIN</button>
+                <button class="auth-tab" data-tab="signup">SIGN UP</button>
+            </div>
+
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <input type="email" id="loginEmail" placeholder="Email" required autocomplete="email">
+                    <i class="fas fa-envelope"></i>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Password" required
+                        autocomplete="current-password">
+                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-eye toggle-password" data-target="loginPassword"></i>
+                </div>
+
+                <button type="submit" class="auth-submit-btn">
+                    <span>LOGIN</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+
+                <div class="auth-divider">
+                    <span>OR</span>
+                </div>
+
+                <button type="button" class="google-auth-btn" id="googleLoginBtn">
+                    <i class="fab fa-google"></i>
+                    <span>Continue with Google</span>
+                </button>
+
+                <div class="auth-links">
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+            </form>
+
+            <form class="auth-form" id="signupForm">
+                <div class="form-group">
+                    <input type="text" id="signupName" placeholder="Full Name" required autocomplete="name">
+                    <i class="fas fa-user"></i>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" id="signupEmail" placeholder="Email" required autocomplete="email">
+                    <i class="fas fa-envelope"></i>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="signupPassword" placeholder="Password" required
+                        autocomplete="new-password">
+                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-eye toggle-password" data-target="signupPassword"></i>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" required
+                        autocomplete="new-password">
+                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-eye toggle-password" data-target="signupConfirmPassword"></i>
+                </div>
+
+                <button type="submit" class="auth-submit-btn">
+                    <span>CREATE ACCOUNT</span>
+                    <i class="fas fa-user-plus"></i>
+                </button>
+
+                <div class="auth-divider">
+                    <span>OR</span>
+                </div>
+
+                <button type="button" class="google-auth-btn" id="googleSignupBtn">
+                    <i class="fab fa-google"></i>
+                    <span>Sign up with Google</span>
+                </button>
+
+                <div class="terms">
+                    <p>By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
+                </div>
+            </form>
+
+            <div class="auth-status" id="authStatus"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span>CUSTOM</span>
+                    <span>LABS</span>
+                </div>
+                <p class="footer-tagline">Creating uniqueness, one product at a time.</p>
+
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+
+                <p class="footer-copyright">© 2024 CUSTOM LABS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/firebase-app.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/star-animation.js"></script>
+    <script src="js/bespoke.js"></script>
+    <script src="js/mascot.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

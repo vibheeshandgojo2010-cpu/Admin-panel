@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | CUSTOM LABS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/transitions.css">
+    <link rel="stylesheet" href="../css/star-animation.css">
+    <link rel="stylesheet" href="../css/mascot.css">
+    <script src="../js/theme.js"></script>
+    <script src="../js/transitions.js"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav fixed">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">
+                    <span>CUSTOM</span>
+                    <span class="logo-orange">LABS</span>
+                </a>
+            </div>
+
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">HOME</a>
+                <a href="products.html" class="nav-link active">PRODUCTS</a>
+                <a href="process.html" class="nav-link">PROCESS</a>
+                <a href="about.html" class="nav-link">ABOUT</a>
+                <a href="contact.html" class="nav-link">CONTACT</a>
+            </div>
+
+            <div class="nav-auth">
+                <button class="cart-icon-btn" id="cartBtn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+
+                <div class="user-menu" id="userMenu" style="display: none;">
+                </div>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>OUR <span class="highlight">PRODUCTS</span></h1>
+            <p>Customize anything to match your unique style</p>
+        </div>
+    </header>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-controls">
+                <button class="filter-btn active" data-category="all">ALL PRODUCTS</button>
+                <button class="filter-btn" data-category="drinkware">DRINKWARE</button>
+                <button class="filter-btn" data-category="accessories">ACCESSORIES</button>
+                <button class="filter-btn" data-category="prints">PRINTS & STATIONERY</button>
+                <button class="filter-btn" data-category="apparel">APPAREL</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid Section -->
+    <section class="products-section">
+        <div class="container container-full-width">
+            <!-- Products Utility Bar (Search & Sort) -->
+            <div class="products-utility-bar" id="productsUtilityBar" style="display: none;">
+                <div class="search-container">
+                    <div class="search-box-large">
+                        <input type="text" id="productSearch"
+                            placeholder="Search for products, materials, or styles...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <div class="utility-actions">
+                    <div class="sort-wrap">
+                        <button class="utility-toggle-btn" id="sortToggle">
+                            <i class="fas fa-sort-amount-down"></i>
+                            <span>SORT BY</span>
+                        </button>
+                        <div class="sort-dropdown-menu" id="sortDropdown">
+                            <select id="productSort" class="utility-select">
+                                <option value="featured">Featured</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="name">Name: A-Z</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="saved-items-wrap">
+                        <button class="utility-toggle-btn" id="wishlistToggle">
+                            <i class="fas fa-heart"></i>
+                            <span>WISHLIST</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sidebarAuthCheck" class="utility-auth-check">
+                <p><i class="fas fa-lock"></i> <button class="link-btn"
+                        onclick="document.getElementById('loginBtn')?.click()">Login</button> to unlock search, sort and
+                    wishlist</p>
+            </div>
+
+            <!-- Recently Viewed (Optional Sidebar or Drawer) -->
+            <div class="wishlist-drawer" id="wishlistDrawer">
+                <div class="drawer-header">
+                    <h3>YOUR WISHLIST</h3>
+                    <button id="closeWishlist"><i class="fas fa-times"></i></button>
+                </div>
+                <div id="wishlistItems" class="recent-list">
+                    <p class="empty-msg">Your wishlist is empty.</p>
+                </div>
+                <div class="drawer-header mt-4">
+                    <h3>RECENTLY VIEWED</h3>
+                </div>
+                <div id="recentlyViewedList" class="recent-list">
+                    <p class="empty-msg">No products viewed yet.</p>
+                </div>
+            </div>
+
+            <div class="products-content-centered">
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be dynamically rendered here by products.js -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Detail Modal (Amazon Style) -->
+    <div class="product-modal" id="productModal">
+        <div class="product-modal-content amazon-layout">
+            <button class="close-modal" id="closeProductModal">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Main Content Grid -->
+            <div class="product-modal-body">
+                <!-- 1. Left Col: Image Gallery -->
+                <div class="product-modal-gallery">
+                    <div class="modal-image-large" id="modalMainImage">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <div class="image-zoom-hint">Roll over image to zoom in</div>
+                </div>
+
+                <!-- 2. Center Col: Primary Info -->
+                <div class="product-modal-info">
+                    <nav class="amazon-breadcrumbs">
+                        <span id="modalCategory">Category</span> &rsaquo; <span>Custom Products</span>
+                    </nav>
+
+                    <h1 id="modalProductName" class="amazon-product-title">Product Name</h1>
+
+                    <div class="amazon-ratings">
+                        <div class="rating-stars" id="modalTopStars">
+                            <!-- Dynamic Stars -->
+                        </div>
+                        <a href="#tab-reviews" class="amazon-review-link" id="reviewsCountLink">0 ratings</a>
+                    </div>
+
+                    <div class="amazon-divider"></div>
+
+                    <div class="amazon-price-row">
+                        <span class="price-symbol">₹</span>
+                        <span class="price-amount" id="modalProductPriceHighlight"><span
+                                id="modalProductPrice">0</span></span>
+                    </div>
+
+                    <div class="amazon-description">
+                        <h3>About this item</h3>
+                        <p id="modalProductDesc">Product description goes here.</p>
+                    </div>
+
+                    <div class="amazon-divider"></div>
+
+                    <!-- Variants Section -->
+                    <div class="modal-selections" id="modalSelections">
+                        <!-- Dynamic variant selectors (color, size, etc.) -->
+                    </div>
+
+                    <div class="amazon-divider"></div>
+
+                    <!-- Customization Tabbed/Accordion section -->
+                    <div class="amazon-custom-section">
+                        <h3><i class="fas fa-paint-brush"></i> PERSONALIZE YOUR LAB PRODUCT</h3>
+                        <div class="modal-customization">
+                            <label for="customImage">Upload Your Design/Reference (Optional)</label>
+                            <div class="image-upload-wrapper">
+                                <input type="file" id="customImage" accept="image/*" class="custom-image-input">
+                                <div class="upload-placeholder">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Choose image or drag here</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-customization">
+                            <label for="customInstructions">Custom Instructions (Optional)</label>
+                            <textarea id="customInstructions"
+                                placeholder="Tell us what you want to print, placement details, or any specific requests..."></textarea>
+                            <p class="custom-hint" id="modalCustomHint"></p>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Integrated Below Primary Info -->
+                    <div class="amazon-divider"></div>
+                    <div class="amazon-reviews-section" id="tab-reviews">
+                        <div class="reviews-header">
+                            <h3>CUSTOMER REVIEWS</h3>
+                            <div class="average-rating">
+                                <span class="rating-num">0.0</span>
+                                <div class="rating-stars-small">
+                                    <!-- Dynamic Stars -->
+                                </div>
+                                <span class="rating-count">(0 reviews)</span>
+                            </div>
+                        </div>
+
+                        <div id="reviewsList" class="reviews-list">
+                            <p class="empty-msg">No reviews yet.</p>
+                        </div>
+
+                        <div id="addReviewSection" class="add-review-section" style="display: none;">
+                            <h4>Write a customer review</h4>
+                            <div class="star-rating-input" id="starRatingInput">
+                                <i class="far fa-star" data-rating="1"></i>
+                                <i class="far fa-star" data-rating="2"></i>
+                                <i class="far fa-star" data-rating="3"></i>
+                                <i class="far fa-star" data-rating="4"></i>
+                                <i class="far fa-star" data-rating="5"></i>
+                            </div>
+                            <textarea id="reviewText" placeholder="What did you like or dislike?"></textarea>
+                            <button id="submitReviewBtn" class="submit-review-btn">SUBMIT</button>
+                        </div>
+
+                        <div id="reviewAuthMessage" class="review-status-msg">
+                            <i class="fas fa-lock"></i>
+                            <span>Verified purchasers only.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Right Col: Buy Box (Floating/Sticky) -->
+                <div class="amazon-buy-box-container">
+                    <div class="amazon-buy-box">
+                        <div class="buy-price">₹<span id="modalBuyPrice">0</span></div>
+                        <div class="buy-stock">FREE delivery tomorrow</div>
+                        <div class="buy-location"><i class="fas fa-map-marker-alt"></i> Select delivery location</div>
+
+                        <div class="buy-qty-select">
+                            <label>Qty:</label>
+                            <select id="buyQty">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+
+                        <div class="buy-actions">
+                            <div class="buy-box-spacer" style="height: 120px;"></div>
+                            <button class="buy-add-btn" id="modalAddToCartBtn">
+                                <span>Add to Cart</span>
+                            </button>
+                        </div>
+
+                        <div class="buy-secure">
+                            <i class="fas fa-lock"></i> Secure transaction
+                        </div>
+
+                        <div class="buy-details">
+                            <span>Sold by</span> <strong>Custom Labs India</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>CAN'T FIND WHAT YOU'RE LOOKING FOR?</h2>
+            <p>Contact us for custom requests and special orders</p>
+            <a href="contact.html" class="cta-button">
+                <span>GET IN TOUCH</span>
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-content">
+            <button class="close-modal" id="closeAuthModal">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">LOGIN</button>
+                <button class="auth-tab" data-tab="signup">SIGN UP</button>
+            </div>
+
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <input type="email" id="loginEmail" placeholder="Email" required autocomplete="email">
+                    <i class="fas fa-envelope"></i>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Password" required
+                        autocomplete="current-password">
+                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-eye toggle-password" data-target="loginPassword"></i>
+                </div>
+
+                <button type="submit" class="auth-submit-btn">
+                    <span>LOGIN</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+
+                <div class="auth-divider">
+                    <span>OR</span>
+                </div>
+
+                <button type="button" class="google-auth-btn" id="googleLoginBtn">
+                    <i class="fab fa-google"></i>
+                    <span>Continue with Google</span>
+                </button>
+
+                <div class="auth-links">
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+            </form>
+
+            <form class="auth-form" id="signupForm">
+                <div class="form-group">
+                    <input type="text" id="signupName" placeholder="Full Name" required autocomplete="name">
+                    <i class="fas fa-user"></i>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" id="signupEmail" placeholder="Email" required autocomplete="email">
+                    <i class="fas fa-envelope"></i>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="signupPassword" placeholder="Password" required
+                        autocomplete="new-password">
+                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-eye toggle-password" data-target="signupPassword"></i>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" required
+                        autocomplete="new-password">
+                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-eye toggle-password" data-target="signupConfirmPassword"></i>
+                </div>
+
+                <button type="submit" class="auth-submit-btn">
+                    <span>CREATE ACCOUNT</span>
+                    <i class="fas fa-user-plus"></i>
+                </button>
+
+                <div class="auth-divider">
+                    <span>OR</span>
+                </div>
+
+                <button type="button" class="google-auth-btn" id="googleSignupBtn">
+                    <i class="fab fa-google"></i>
+                    <span>Sign up with Google</span>
+                </button>
+
+                <div class="terms">
+                    <p>By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a></p>
+                </div>
+            </form>
+
+            <div class="auth-status" id="authStatus"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span>CUSTOM</span>
+                    <span>LABS</span>
+                </div>
+                <p class="footer-tagline">Creating uniqueness, one product at a time.</p>
+
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+
+                <p class="footer-copyright">© 2024 CUSTOM LABS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/firebase-app.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/products-data.js"></script>
+    <script src="../js/star-animation.js"></script>
+    <script src="../js/bespoke.js"></script>
+    <script src="../js/mascot.js"></script>
+    <script src="../js/products.js"></script>
+</body>
+
+</html>

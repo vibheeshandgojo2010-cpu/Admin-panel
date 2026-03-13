@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | CUSTOM LABS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-page">
+
+    <!-- Auth Gate -->
+    <div class="admin-auth-gate" id="adminAuthGate">
+        <div class="gate-loading" id="gateLoading">
+            <div class="gate-spinner"></div>
+            <p>Verifying admin access...</p>
+        </div>
+        <div id="gateDenied" style="display:none; max-width: 400px; width: 100%; margin: 0 auto;">
+            <div class="gate-icon"><i class="fas fa-shield-alt"></i></div>
+            <h2>ADMIN LOGIN</h2>
+            <p style="margin-bottom: 25px;">Please enter your credentials to continue</p>
+            
+            <div style="background:var(--admin-bg-light); padding:24px; border-radius:12px; border:1px solid var(--admin-border); text-align:left; margin-bottom:20px;">
+                <div style="margin-bottom:15px;">
+                    <label style="display:block; font-size:11px; color:var(--admin-text-dim); margin-bottom:6px; letter-spacing:1px;">USERNAME</label>
+                    <input type="text" id="adminUser" placeholder="e.g. taran" style="width:100%; height:44px; background:var(--admin-bg-dark); border:1px solid var(--admin-border); color:#fff; padding:0 15px; border-radius:8px; font-size:14px; outline:none;">
+                </div>
+                <div style="margin-bottom:20px;">
+                    <label style="display:block; font-size:11px; color:var(--admin-text-dim); margin-bottom:6px; letter-spacing:1px;">PASSWORD</label>
+                    <input type="password" id="adminPass" placeholder="••••••••" style="width:100%; height:44px; background:var(--admin-bg-dark); border:1px solid var(--admin-border); color:#fff; padding:0 15px; border-radius:8px; font-size:14px; outline:none;">
+                </div>
+                <button class="btn btn-primary" style="width:100%; height:44px; justify-content:center;" onclick="handleAdminManualLogin()">PROCEED TO PANEL</button>
+            </div>
+            <a href="../index.html" class="btn btn-ghost" style="opacity:0.6;"><i class="fas fa-arrow-left"></i> Back to Site</a>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="admin-toast-container"></div>
+
+    <!-- Admin Layout -->
+    <div class="admin-layout" id="adminLayout" style="display:none;">
+
+        <!-- ═══ SIDEBAR ═══ -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <a href="../index.html" class="sidebar-logo">
+                    <div class="logo-icon">CL</div>
+                    <div class="logo-text">CUSTOM<span>LABS</span></div>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Main</div>
+                    <button class="sidebar-link active" data-panel="dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></button>
+                    <button class="sidebar-link" data-panel="orders"><i class="fas fa-shopping-cart"></i><span>Orders</span></button>
+                    <button class="sidebar-link" data-panel="products"><i class="fas fa-box"></i><span>Products</span></button>
+                    <button class="sidebar-link" data-panel="users"><i class="fas fa-users"></i><span>Users & CRM</span></button>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">System</div>
+                    <button class="sidebar-link" data-panel="settings"><i class="fas fa-cog"></i><span>Settings & Logs</span></button>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="sidebar-user-avatar" id="sidebarAvatar">A</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name" id="sidebarName">Admin</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="admin-header-left">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+                    <h1 id="headerTitle">Dashboard</h1>
+                </div>
+                <div class="admin-header-right">
+                    <button class="header-btn" title="Refresh" id="refreshBtn"><i class="fas fa-sync-alt"></i></button>
+                    <button class="header-btn" title="Exit" onclick="window.location.href='../index.html'"><i class="fas fa-external-link-alt"></i></button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+
+                <!-- 1. DASHBOARD -->
+                <div class="admin-panel active" id="panel-dashboard">
+                    <div class="metrics-grid">
+                        <div class="metric-card accent">
+                            <div class="metric-label">Total Revenue</div>
+                            <div class="metric-value" id="metricRevenue">₹0</div>
+                        </div>
+                        <div class="metric-card success">
+                            <div class="metric-label">Orders</div>
+                            <div class="metric-value" id="metricOrders">0</div>
+                        </div>
+                        <div class="metric-card info">
+                            <div class="metric-label">Avg. Order Value</div>
+                            <div class="metric-value" id="metricAOV">₹0</div>
+                        </div>
+                        <div class="metric-card purple">
+                            <div class="metric-label">Active Users</div>
+                            <div class="metric-value" id="metricActiveUsers">0</div>
+                        </div>
+                    </div>
+
+                    <div class="admin-card" style="margin-top:24px;">
+                        <div class="admin-card-header"><span class="admin-card-title">Quick Tasks</span></div>
+                        <div class="admin-card-body">
+                            <div class="quick-actions">
+                                <div class="quick-action" data-goto="products"><i class="fas fa-plus-circle"></i><span>Add Product</span></div>
+                                <div class="quick-action" data-goto="orders"><i class="fas fa-truck"></i><span>View Orders</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. ORDERS -->
+                <div class="admin-panel" id="panel-orders">
+                    <div class="section-header"><h2>Orders</h2></div>
+                    <div class="admin-card">
+                        <div class="admin-card-body no-pad">
+                            <table class="admin-table">
+                                <thead><tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th><th style="width: 80px;">Actions</th></tr></thead>
+                                <tbody id="ordersTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. PRODUCTS -->
+                <div class="admin-panel" id="panel-products">
+                    <div class="section-header">
+                        <h2>Products</h2>
+                        <button class="btn btn-primary" id="addProductBtn">+ Add Product</button>
+                    </div>
+                    <div class="admin-card">
+                        <div class="admin-card-body no-pad">
+                            <table class="admin-table">
+                                <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
+                                <tbody id="productsTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. USERS -->
+                <div class="admin-panel" id="panel-users">
+                    <div class="section-header"><h2>Customer CRM</h2></div>
+                    <div class="admin-card">
+                        <div class="admin-card-body no-pad">
+                            <table class="admin-table">
+                                <thead><tr><th>User</th><th>Email</th><th>Last Login</th></tr></thead>
+                                <tbody id="usersTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. SETTINGS -->
+                <div class="admin-panel" id="panel-settings">
+                    <div class="section-header"><h2>System Settings</h2></div>
+
+                    <div class="admin-card" style="margin-bottom:20px;">
+                        <div class="admin-card-header"><span class="admin-card-title">Maintenance Mode</span></div>
+                        <div class="admin-card-body">
+                            <div class="maintenance-toggle off" id="maintenanceToggle">
+                                <i class="fas fa-power-off"></i>
+                                <div style="flex:1; margin-left:15px;">
+                                    <div style="font-weight:600;">Site Kill-Switch</div>
+                                    <div style="font-size:12px; color:var(--admin-text-dim);">Enable to block site access for maintenance</div>
+                                </div>
+                                <label class="form-switch"><input type="checkbox" id="maintenanceSwitch"><span class="switch-track"></span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-card" style="margin-bottom:20px;">
+                        <div class="admin-card-header"><span class="admin-card-title">Data Sync</span></div>
+                        <div class="admin-card-body">
+                            <button class="btn btn-secondary" onclick="migrateProductsToFirestore()"><i class="fas fa-sync"></i> Sync Local Products to Firestore</button>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <div class="admin-card-header"><span class="admin-card-title">Audit Logs</span></div>
+                        <div class="admin-card-body no-pad" id="auditLogContainer" style="max-height:300px; overflow-y:auto;"></div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="admin-modal-overlay" id="productModal">
+        <div class="admin-modal">
+            <div class="admin-modal-header"><h2 id="productModalTitle">Product Details</h2></div>
+            <div class="admin-modal-body">
+                <input type="hidden" id="pmId">
+                <div class="form-group"><label>Name</label><input type="text" class="form-input" id="pmName"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Category</label><select class="form-select" id="pmCategory"><option value="apparel">Apparel</option><option value="drinkware">Drinkware</option><option value="accessories">Accessories</option></select></div>
+                    <div class="form-group"><label>Price (₹)</label><input type="number" class="form-input" id="pmPrice"></div>
+                </div>
+                <div class="form-group"><label>Description</label><textarea class="form-textarea" id="pmDesc" rows="2"></textarea></div>
+                <div class="form-group"><label>Icon Class</label><input type="text" class="form-input" id="pmIcon" placeholder="fa-box"></div>
+            </div>
+            <div class="admin-modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('productModal')">Cancel</button>
+                <button class="btn btn-primary" id="saveProductBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div class="admin-modal-overlay" id="orderModal">
+        <div class="admin-modal" style="max-width: 600px;">
+            <div class="admin-modal-header">
+                <h2>Order Details <span id="odId" style="color:var(--admin-text-dim); font-size:14px;"></span></h2>
+                <button class="admin-modal-close" onclick="closeModal('orderModal')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="admin-modal-body" id="odBody">
+                <div style="padding:40px; text-align:center;"><div class="gate-spinner"></div></div>
+            </div>
+            <div class="admin-modal-footer" style="justify-content: flex-start; gap: 10px; flex-wrap: wrap;">
+                <button class="btn btn-sm btn-info" onclick="updateOrderStatus('processing')">Mark Processing</button>
+                <button class="btn btn-sm btn-success" onclick="updateOrderStatus('shipped')">Mark Shipped</button>
+                <button class="btn btn-sm btn-primary" onclick="updateOrderStatus('completed')">Complete Order</button>
+                <button class="btn btn-sm btn-secondary" style="margin-left:auto;" onclick="updateOrderStatus('cancelled')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/products-data.js"></script>
+    <script src="../js/migrate-data.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

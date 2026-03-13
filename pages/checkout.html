@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Custom Labs</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/transitions.css">
+    <link rel="stylesheet" href="../css/mascot.css">
+    <script src="../js/theme.js"></script>
+    <script src="../js/transitions.js"></script>
+</head>
+
+<body class="checkout-page sub-page">
+    <!-- Navigation -->
+    <nav class="main-nav fixed" id="mainNav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">
+                    <span>CUSTOM</span>
+                    <span class="logo-orange">LABS</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">HOME</a>
+                <a href="products.html" class="nav-link">PRODUCTS</a>
+                <a href="process.html" class="nav-link">PROCESS</a>
+                <a href="about.html" class="nav-link">ABOUT</a>
+                <a href="contact.html" class="nav-link">CONTACT</a>
+            </div>
+            <div class="nav-auth">
+                <button class="login-btn" id="loginBtn" style="display: none;">
+                    <i class="fas fa-user"></i>
+                    <span>LOGIN</span>
+                </button>
+                <div class="user-menu" id="userMenu" style="display: none;"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="checkout-container">
+                <!-- Left: Shipping & Payment -->
+                <div class="checkout-form-section">
+                    <div class="checkout-step" id="step-shipping">
+                        <h2><span class="step-num">1</span> SHIPPING DETAILS</h2>
+                        <form id="shippingForm" class="checkout-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>FULL NAME</label>
+                                    <input type="text" id="ship-name" required placeholder="John Doe">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>EMAIL ADDRESS</label>
+                                    <input type="email" id="ship-email" required placeholder="john@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label>PHONE NUMBER</label>
+                                    <input type="tel" id="ship-phone" required placeholder="+91 XXXXX XXXXX">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>SHIPPING ADDRESS</label>
+                                <textarea id="ship-address" required placeholder="Apartment, Street, Area"></textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>CITY</label>
+                                    <input type="text" id="ship-city" required placeholder="City">
+                                </div>
+                                <div class="form-group">
+                                    <label>POSTAL CODE</label>
+                                    <input type="text" id="ship-zip" required placeholder="XXXXXX">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary checkout-btn">CONTINUE TO PAYMENT</button>
+                        </form>
+                    </div>
+
+                    <div class="checkout-step locked" id="step-payment">
+                        <h2><span class="step-num">2</span> PAYMENT METHOD</h2>
+                        <div class="payment-mock">
+                            <div class="payment-options">
+                                <div class="payment-option active">
+                                    <i class="fas fa-credit-card"></i>
+                                    <span>CREDIT / DEBIT CARD</span>
+                                </div>
+                                <div class="payment-option">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <span>UPI / QR CODE</span>
+                                </div>
+                            </div>
+
+                            <form id="paymentForm" class="checkout-form">
+                                <div class="form-group">
+                                    <label>CARD NUMBER</label>
+                                    <div class="card-input-wrapper">
+                                        <input type="text" id="card-num" placeholder="XXXX XXXX XXXX XXXX"
+                                            maxlength="19">
+                                        <i class="fab fa-cc-visa" id="card-icon"></i>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>EXPIRY DATE</label>
+                                        <input type="text" id="card-expiry" placeholder="MM/YY" maxlength="5">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>CVV</label>
+                                        <input type="password" id="card-cvv" placeholder="***" maxlength="3">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary checkout-btn" id="payNowBtn">PAY ₹ <span
+                                        id="checkoutTotalPayable">0</span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Order Summary -->
+                <aside class="order-summary-section">
+                    <div class="summary-card">
+                        <h3>ORDER SUMMARY</h3>
+                        <div id="checkoutItemsList" class="checkout-items">
+                            <!-- Items from local storage -->
+                        </div>
+                        <div class="summary-totals">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="summary-subtotal">₹0</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Shipping</span>
+                                <span id="summary-shipping">₹0</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Grand Total</span>
+                                <span id="summary-total">₹0</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div class="status-overlay" id="paymentOverlay">
+        <div class="status-content">
+            <div class="loader-ring"></div>
+            <p id="statusText">Processing Payment...</p>
+        </div>
+    </div>
+
+    <div class="success-screen" id="successScreen">
+        <div class="success-box">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h1>ORDER CONFIRMED!</h1>
+            <p>Your order <span class="highlight" id="orderId">#CL-88219</span> has been placed successfully.</p>
+            <p class="msg">We've sent a confirmation email with your order details.</p>
+            <a href="products.html" class="btn-primary">CONTINUE SHOPPING</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/firebase-app.js"></script>
+    <script src="../js/mascot.js"></script>
+    <script src="../js/checkout.js"></script>
+</body>
+
+</html>

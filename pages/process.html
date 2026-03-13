@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Process | CUSTOM LABS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/pages.css">
+    <link rel="stylesheet" href="../css/transitions.css">
+    <link rel="stylesheet" href="../css/mascot.css">
+    <script src="../js/theme.js"></script>
+    <script src="../js/transitions.js"></script>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="main-nav fixed">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="../index.html">
+                    <span>CUSTOM</span>
+                    <span class="logo-orange">LABS</span>
+                </a>
+            </div>
+
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">HOME</a>
+                <a href="products.html" class="nav-link">PRODUCTS</a>
+                <a href="process.html" class="nav-link active">PROCESS</a>
+                <a href="about.html" class="nav-link">ABOUT</a>
+                <a href="contact.html" class="nav-link">CONTACT</a>
+            </div>
+
+            <div class="nav-auth">
+                <button class="cart-icon-btn" id="cartBtn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+
+                <div class="user-menu" id="userMenu" style="display: none;">
+                </div>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>HOW IT <span class="highlight">WORKS</span></h1>
+            <p>From concept to creation - your journey to a custom product</p>
+        </div>
+    </header>
+
+    <!-- Process Timeline -->
+    <section class="section">
+        <div class="container">
+            <div class="process-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-number">01</div>
+                    <div class="timeline-content">
+                        <h3>CHOOSE YOUR PRODUCT</h3>
+                        <p>Browse our extensive catalog of customizable products. From apparel to home decor, we offer a
+                            wide range of items ready for your personal touch. Select the product that best fits your
+                            vision and needs.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-number">02</div>
+                    <div class="timeline-content">
+                        <h3>DESIGN & CUSTOMIZE</h3>
+                        <p>Use our intuitive online design tool or work directly with our design team. Upload your
+                            images, add text, choose colors, and preview your creation in real-time. Our experts are
+                            available 24/7 to help bring your vision to life.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-number">03</div>
+                    <div class="timeline-content">
+                        <h3>REVIEW & APPROVE</h3>
+                        <p>Once your design is complete, we'll send you a detailed mockup for approval. Make any final
+                            adjustments until it's absolutely perfect. We won't proceed to production until you're 100%
+                            satisfied.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-number">04</div>
+                    <div class="timeline-content">
+                        <h3>EXPERT CRAFTING</h3>
+                        <p>Our skilled artisans get to work, using premium materials and state-of-the-art equipment.
+                            Every product is handcrafted with attention to detail, ensuring the highest quality
+                            standards are met.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-number">05</div>
+                    <div class="timeline-content">
+                        <h3>QUALITY CONTROL</h3>
+                        <p>Before shipping, each item undergoes rigorous quality inspection. We check every detail to
+                            ensure your product meets our exacting standards and matches your approved design perfectly.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-number">06</div>
+                    <div class="timeline-content">
+                        <h3>DELIVERY TO YOUR DOOR</h3>
+                        <p>Your custom creation is carefully packaged and shipped to your doorstep. Track your order
+                            every step of the way, and enjoy fast, reliable delivery with full insurance coverage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">WHAT MAKES US <span class="highlight">DIFFERENT</span></h2>
+
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="fas fa-magic"></i>
+                    <h3>UNLIMITED REVISIONS</h3>
+                    <p>Make as many changes as you need during the design phase. We're committed to getting it perfect.
+                    </p>
+                </div>
+
+                <div class="value-card">
+                    <i class="fas fa-certificate"></i>
+                    <h3>100% SATISFACTION GUARANTEE</h3>
+                    <p>If you're not completely happy with your product, we'll make it right or refund your money.</p>
+                </div>
+
+                <div class="value-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>FAST TURNAROUND</h3>
+                    <p>Most orders ship within 3-5 business days, with rush options available for urgent needs.</p>
+                </div>
+
+                <div class="value-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>SECURE ORDERING</h3>
+                    <p>Your data and designs are protected with industry-leading security measures.</p>
+                </div>
+
+                <div class="value-card">
+                    <i class="fas fa-leaf"></i>
+                    <h3>ECO-FRIENDLY</h3>
+                    <p>We use sustainable materials and processes whenever possible to minimize environmental impact.
+                    </p>
+                </div>
+
+                <div class="value-card">
+                    <i class="fas fa-users"></i>
+                    <h3>EXPERT SUPPORT</h3>
+                    <p>Our team of designers and customer service specialists are here to help every step of the way.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>READY TO START YOUR PROJECT?</h2>
+            <p>Let's create something amazing together</p>
+            <a href="products.html" class="cta-button">
+                <span>BROWSE PRODUCTS</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span>CUSTOM</span>
+                    <span>LABS</span>
+                </div>
+                <p class="footer-tagline">Creating uniqueness, one product at a time.</p>
+
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+
+                <p class="footer-copyright">© 2024 CUSTOM LABS. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/firebase-app.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/mascot.js"></script>
+    <script src="../js/script.js"></script>
+</body>
+
+</html>
